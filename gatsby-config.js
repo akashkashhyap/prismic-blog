@@ -1,6 +1,10 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
+    title: `Generic blog`,
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
     author: `@gatsbyjs`,
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
@@ -8,6 +12,19 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-image`,
+   
+    {
+      resolve: "gatsby-source-prismic",
+
+      options: {
+        repositoryName: "generic-blog",
+        accessToken: process.env.PRISMIC_API_ACCESS_TOKEN,
+        schemas: {
+          blogs: require("./src/schemas/blogs.json"),
+          about: require("./src/schemas/about.json"),
+        }
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
